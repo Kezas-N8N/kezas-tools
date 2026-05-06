@@ -3,532 +3,563 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KEZAS — GitHub Backup</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<title>KEZAS — n8n Backup</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --border: #222222;
-    --accent: #e8ff00;
-    --accent2: #00ff88;
-    --text: #f0f0f0;
-    --muted: #555555;
-    --danger: #ff4444;
-    --success: #00ff88;
-  }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #f5f5f3;
+    --white: #ffffff;
+    --border: #e8e8e4;
+    --text: #1a1a1a;
+    --muted: #888880;
+    --accent: #2563eb;
+    --accent-light: #eff6ff;
+    --accent-hover: #1d4ed8;
+    --success: #16a34a;
+    --success-bg: #f0fdf4;
+    --success-border: #bbf7d0;
+    --error: #dc2626;
+    --error-bg: #fef2f2;
+    --error-border: #fecaca;
+    --warning: #d97706;
+    --warning-bg: #fffbeb;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 2px 4px rgba(0,0,0,0.04);
+    --shadow-lg: 0 20px 40px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.04);
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
 
   body {
     background: var(--bg);
-    color: var(--text);
-    font-family: 'Syne', sans-serif;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px 20px 60px;
+    color: var(--text);
+  }
+
+  .page {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    padding: 0 4px;
+  }
+
+  .logo-mark {
+    width: 44px;
+    height: 44px;
+    background: var(--text);
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
-    overflow-x: hidden;
+    flex-shrink: 0;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(ellipse at 30% 20%, rgba(232,255,0,0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(0,255,136,0.03) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
+  .logo-mark svg {
+    width: 22px;
+    height: 22px;
+    fill: white;
   }
 
-  .container {
-    width: 100%;
-    max-width: 560px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .header {
-    margin-bottom: 40px;
-  }
-
-  .logo {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.3em;
-    color: var(--muted);
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 16px;
-  }
-
-  .logo span {
-    color: var(--accent);
-  }
-
-  h1 {
-    font-size: 42px;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    margin-bottom: 8px;
-  }
-
-  h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-
-  .subtitle {
-    font-size: 14px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 300;
-  }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 32px;
-    margin-bottom: 16px;
-  }
-
-  .section-label {
-    font-size: 10px;
+  .header-text h1 {
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: 0.25em;
-    color: var(--muted);
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
-    margin-bottom: 12px;
+    letter-spacing: -0.03em;
+    color: var(--text);
+    line-height: 1.2;
   }
 
-  .config-grid {
+  .header-text p {
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .step-badge {
+    width: 26px;
+    height: 26px;
+    background: var(--accent-light);
+    color: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  /* FIELDS */
+  .field {
+    margin-bottom: 14px;
+  }
+
+  .field:last-child {
+    margin-bottom: 0;
+  }
+
+  .field-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 12px;
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .field.full {
-    grid-column: 1 / -1;
+    margin-bottom: 14px;
   }
 
   label {
-    font-size: 11px;
+    display: block;
+    font-size: 12px;
     font-weight: 600;
-    letter-spacing: 0.1em;
     color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
   }
 
   input, select {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    padding: 10px 14px;
-    outline: none;
-    transition: border-color 0.15s;
     width: 100%;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
     appearance: none;
   }
 
   input:focus, select:focus {
     border-color: var(--accent);
+    background: var(--white);
   }
 
   input::placeholder {
-    color: var(--muted);
+    color: #bbb;
+    font-weight: 400;
   }
 
-  .select-wrapper {
+  .select-wrap {
     position: relative;
   }
 
-  .select-wrapper::after {
-    content: '▼';
+  .select-wrap::after {
+    content: '';
     position: absolute;
     right: 14px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 9px;
-    color: var(--muted);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--muted);
     pointer-events: none;
   }
 
   select option {
-    background: #111;
+    background: white;
     color: var(--text);
-    padding: 8px;
   }
 
+  .hint {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .hint::before {
+    content: '→';
+    color: var(--accent);
+    font-size: 11px;
+  }
+
+  /* BUTTONS */
   .btn {
     width: 100%;
-    padding: 14px 24px;
-    background: var(--accent);
-    color: #000;
-    border: none;
-    border-radius: 3px;
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.15s;
-    position: relative;
-    overflow: hidden;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
-  .btn:hover {
-    background: #f5ff40;
+  .btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: var(--accent-hover);
+    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
     transform: translateY(-1px);
   }
 
-  .btn:active {
+  .btn-primary:active:not(:disabled) {
     transform: translateY(0);
   }
 
-  .btn:disabled {
-    opacity: 0.4;
+  .btn-primary:disabled {
+    opacity: 0.45;
     cursor: not-allowed;
-    transform: none;
+    box-shadow: none;
   }
 
   .btn-secondary {
-    background: transparent;
+    background: var(--bg);
     color: var(--text);
-    border: 1px solid var(--border);
-    margin-bottom: 12px;
+    border: 1.5px solid var(--border);
+    margin-bottom: 14px;
   }
 
   .btn-secondary:hover {
     background: var(--border);
-    border-color: var(--muted);
     transform: translateY(-1px);
   }
 
+  /* STATUS */
   .status {
     display: none;
-    padding: 14px 16px;
-    border-radius: 3px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    line-height: 1.6;
-    margin-bottom: 16px;
-    border: 1px solid;
-    white-space: pre-wrap;
-    word-break: break-all;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    border: 1.5px solid;
   }
 
   .status.loading {
-    display: block;
-    border-color: var(--accent);
-    background: rgba(232,255,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-color: #bfdbfe;
+    background: var(--accent-light);
     color: var(--accent);
   }
 
   .status.success {
     display: block;
-    border-color: var(--success);
-    background: rgba(0,255,136,0.05);
+    border-color: var(--success-border);
+    background: var(--success-bg);
     color: var(--success);
+    white-space: pre-wrap;
   }
 
   .status.error {
     display: block;
-    border-color: var(--danger);
-    background: rgba(255,68,68,0.05);
-    color: var(--danger);
+    border-color: var(--error-border);
+    background: var(--error-bg);
+    color: var(--error);
   }
 
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #bfdbfe;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* WORKFLOW COUNT */
+  .wf-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 6px;
+  }
+
+  .wf-count {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .wf-count strong {
+    color: var(--accent);
+  }
+
+  /* DIVIDER */
   .divider {
     height: 1px;
     background: var(--border);
-    margin: 20px 0;
+    margin: 16px 0;
   }
 
-  .workflow-count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 6px;
-  }
-
-  .workflow-count span {
-    color: var(--accent);
-  }
-
-  .token-warning {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    margin-top: 6px;
-  }
-
-  .token-warning strong {
-    color: var(--accent);
-  }
-
+  /* FOOTER */
   .footer {
-    font-size: 11px;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
     text-align: center;
-    margin-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+    font-weight: 400;
   }
 
-  .pulse {
-    display: inline-block;
-    animation: pulse 1s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
-
-  .tag {
-    display: inline-block;
-    font-size: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    padding: 2px 8px;
-    border-radius: 2px;
-    background: rgba(232,255,0,0.1);
+  .footer a {
     color: var(--accent);
-    border: 1px solid rgba(232,255,0,0.2);
-    margin-left: 8px;
-    vertical-align: middle;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* SUCCESS URL */
+  .success-link {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--success);
+    font-size: 12px;
+    text-decoration: underline;
+    word-break: break-all;
   }
 </style>
 </head>
 <body>
 
-<div class="container">
+<div class="page">
+
+  <!-- HEADER -->
   <div class="header">
-    <div class="logo"><span>KEZAS</span> — N8N TOOLS</div>
-    <h1>GitHub<br><em>Backup</em></h1>
-    <p class="subtitle">// zapisz workflow do repozytorium</p>
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>KEZAS n8n Backup</h1>
+      <p>Zapisz workflow do GitHub w jednym kliknięciu</p>
+    </div>
   </div>
 
-  <!-- KONFIGURACJA -->
+  <!-- KROK 1: KONFIGURACJA -->
   <div class="card">
-    <div class="section-label">01 — Konfiguracja</div>
-    <div class="config-grid">
-      <div class="field full">
-        <label>N8N API URL</label>
-        <input type="text" id="n8nUrl" value="https://kezas.app.n8n.cloud/api/v1" placeholder="https://twoj-n8n.cloud/api/v1" />
-      </div>
-      <div class="field full">
-        <label>N8N API Key</label>
-        <input type="password" id="n8nKey" placeholder="eyJhbGciOi..." />
-        <div class="token-warning"><strong>!</strong> Klucz z Settings → API w n8n</div>
-      </div>
-      <div class="field full">
-        <label>GitHub Token</label>
-        <input type="password" id="githubToken" placeholder="ghp_..." />
-        <div class="token-warning"><strong>!</strong> Token z GitHub Settings → Developer Settings</div>
-      </div>
-      <div class="field">
+    <div class="card-header">
+      <div class="step-badge">1</div>
+      <div class="card-title">Konfiguracja połączenia</div>
+    </div>
+
+    <div class="field">
+      <label>N8N API Key</label>
+      <input type="password" id="n8nKey" placeholder="eyJhbGciOiJIUzI1NiIs..." />
+      <div class="hint">Settings → API w panelu n8n</div>
+    </div>
+
+    <div class="field">
+      <label>GitHub Token</label>
+      <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" />
+      <div class="hint">GitHub → Settings → Developer Settings → Tokens</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field-row">
+      <div>
         <label>GitHub Owner</label>
-        <input type="text" id="githubOwner" value="Kezas-N8N" placeholder="Kezas-N8N" />
+        <input type="text" id="githubOwner" value="Kezas-N8N" />
       </div>
-      <div class="field">
-        <label>GitHub Repo</label>
-        <input type="text" id="githubRepo" value="n8n-workflows" placeholder="n8n-workflows" />
+      <div>
+        <label>Repozytorium</label>
+        <input type="text" id="githubRepo" value="n8n-workflows" />
       </div>
     </div>
+
     <button class="btn btn-secondary" onclick="loadWorkflows()">
-      ⟳ Załaduj listę workflows
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.51"/></svg>
+      Załaduj listę workflows
     </button>
   </div>
 
-  <!-- WYBOR WORKFLOW -->
+  <!-- KROK 2: WYBOR -->
   <div class="card">
-    <div class="section-label">02 — Wybierz workflow</div>
-    <div class="field" style="margin-bottom: 16px;">
-      <label>Workflow</label>
-      <div class="select-wrapper">
+    <div class="card-header">
+      <div class="step-badge">2</div>
+      <div class="card-title">Wybierz workflow</div>
+    </div>
+
+    <div class="field">
+      <label>Workflow do zapisania</label>
+      <div class="select-wrap">
         <select id="workflowSelect">
-          <option value="">— najpierw załaduj listę —</option>
+          <option value="">— najpierw załaduj listę powyżej —</option>
         </select>
       </div>
-      <div class="workflow-count" id="workflowCount"></div>
+      <div class="wf-meta">
+        <div class="wf-count" id="workflowCount"></div>
+      </div>
     </div>
 
     <div id="statusBox" class="status"></div>
 
-    <button class="btn" onclick="backupWorkflow()" id="backupBtn" disabled>
-      ↑ Zapisz do GitHub
+    <button class="btn btn-primary" onclick="backupWorkflow()" id="backupBtn" disabled>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Zapisz do GitHub
     </button>
   </div>
 
   <div class="footer">
-    // pliki zapisywane w: <strong>workflows/</strong> — historia zmian w GitHub
+    Pliki zapisywane w <a href="https://github.com/Kezas-N8N/n8n-workflows" target="_blank">n8n-workflows/workflows/</a>
   </div>
+
 </div>
 
 <script>
+  const WEBHOOK_URL = 'https://kezas.app.n8n.cloud/webhook/github-backup';
   let workflows = [];
 
   async function loadWorkflows() {
-    const url = document.getElementById('n8nUrl').value.trim();
-    const key = document.getElementById('n8nKey').value.trim();
+    const n8nKey = document.getElementById('n8nKey').value.trim();
+    const githubToken = document.getElementById('githubToken').value.trim();
+    const owner = document.getElementById('githubOwner').value.trim();
+    const repo = document.getElementById('githubRepo').value.trim();
 
-    if (!url || !key) {
-      showStatus('error', '❌ Wpisz N8N URL i API Key');
+    if (!n8nKey || !githubToken) {
+      showStatus('error', '❌ Wpisz N8N API Key i GitHub Token');
       return;
     }
 
-    showStatus('loading', '⟳ Ładuję listę workflows...');
+    showStatus('loading', 'Ładuję listę workflows...');
 
     try {
-      const res = await fetch(`${url}/workflows?limit=250`, {
-        headers: {
-          'X-N8N-API-KEY': key,
-          'Accept': 'application/json'
-        }
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'list',
+          n8nApiKey: n8nKey,
+          githubToken: githubToken,
+          githubOwner: owner,
+          githubRepo: repo
+        })
       });
 
       if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(`HTTP ${res.status}: ${err.message || 'Błąd autoryzacji'}`);
+        throw new Error(`HTTP ${res.status}`);
       }
 
       const data = await res.json();
-      workflows = data.data || [];
-
-      // Sortuj alfabetycznie
+      workflows = data.workflows || [];
       workflows.sort((a, b) => a.name.localeCompare(b.name));
 
-      // Wypełnij dropdown
       const select = document.getElementById('workflowSelect');
       select.innerHTML = '<option value="">— wybierz workflow —</option>';
 
       workflows.forEach(wf => {
         const opt = document.createElement('option');
         opt.value = wf.id;
-        opt.textContent = wf.name + (wf.active ? ' ▶' : '');
+        opt.textContent = (wf.active ? '▶ ' : '○ ') + wf.name;
         select.appendChild(opt);
       });
 
-      document.getElementById('workflowCount').innerHTML = 
-        `Znaleziono: <span>${workflows.length}</span> workflows`;
+      document.getElementById('workflowCount').innerHTML =
+        `Znaleziono <strong>${workflows.length}</strong> workflows`;
       document.getElementById('backupBtn').disabled = false;
 
-      showStatus('success', `✅ Załadowano ${workflows.length} workflows`);
+      showStatus('success', `✅ Załadowano ${workflows.length} workflows — wybierz jeden z listy`);
 
     } catch (err) {
-      showStatus('error', `❌ Błąd: ${err.message}`);
+      showStatus('error', `❌ ${err.message}`);
     }
   }
 
   async function backupWorkflow() {
-    const n8nUrl = document.getElementById('n8nUrl').value.trim();
     const n8nKey = document.getElementById('n8nKey').value.trim();
     const githubToken = document.getElementById('githubToken').value.trim();
     const owner = document.getElementById('githubOwner').value.trim();
     const repo = document.getElementById('githubRepo').value.trim();
     const workflowId = document.getElementById('workflowSelect').value;
 
-    if (!workflowId) {
-      showStatus('error', '❌ Wybierz workflow z listy');
-      return;
-    }
-
-    if (!githubToken) {
-      showStatus('error', '❌ Wpisz GitHub Token');
-      return;
-    }
+    if (!workflowId) { showStatus('error', '❌ Wybierz workflow z listy'); return; }
 
     const workflowName = workflows.find(w => w.id === workflowId)?.name || workflowId;
     document.getElementById('backupBtn').disabled = true;
 
     try {
-      // KROK 1: Pobierz pełny JSON workflow
-      showStatus('loading', `⟳ Pobieranie workflow "${workflowName}"...`);
+      showStatus('loading', `Zapisuję "${workflowName}" do GitHub...`);
 
-      const wfRes = await fetch(`${n8nUrl}/workflows/${workflowId}`, {
-        headers: { 'X-N8N-API-KEY': n8nKey, 'Accept': 'application/json' }
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'backup',
+          workflowId: workflowId,
+          n8nApiKey: n8nKey,
+          githubToken: githubToken,
+          githubOwner: owner,
+          githubRepo: repo
+        })
       });
 
-      if (!wfRes.ok) throw new Error(`Nie można pobrać workflow: HTTP ${wfRes.status}`);
-      const wfData = await wfRes.json();
-
-      // KROK 2: Przygotuj plik
-      const safeName = workflowName.replace(/[^a-zA-Z0-9_\-]/g, '_').replace(/__+/g, '_');
-      const fileName = `workflows/${safeName}.json`;
-      const content = JSON.stringify(wfData, null, 2);
-      const encoded = btoa(unescape(encodeURIComponent(content)));
-
-      showStatus('loading', `⟳ Sprawdzam czy plik istnieje na GitHub...`);
-
-      // KROK 3: Sprawdź czy plik już istnieje (potrzebne SHA do update)
-      const checkRes = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${githubToken}`,
-            'Accept': 'application/vnd.github+json'
-          }
-        }
-      );
-
-      let sha = null;
-      if (checkRes.ok) {
-        const existing = await checkRes.json();
-        sha = existing.sha;
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`);
       }
 
-      // KROK 4: Push do GitHub
-      const today = new Date().toISOString().split('T')[0];
-      showStatus('loading', `⟳ Zapisuję do GitHub... (${sha ? 'aktualizacja' : 'nowy plik'})`);
+      const result = await res.json();
 
-      const body = {
-        message: `Backup: ${workflowName} - ${today}`,
-        content: encoded
-      };
-      if (sha) body.sha = sha;
-
-      const pushRes = await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Authorization': `Bearer ${githubToken}`,
-            'Accept': 'application/vnd.github+json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        }
-      );
-
-      if (!pushRes.ok) {
-        const err = await pushRes.json().catch(() => ({}));
-        throw new Error(`GitHub error: ${err.message || pushRes.status}`);
+      if (result.success) {
+        showStatus('success',
+          `✅ Zapisano pomyślnie!\n\nWorkflow: ${result.workflowName}\nPlik: ${result.fileName}\nAkcja: ${result.action}\n\n🔗 ${result.url || ''}`
+        );
+      } else {
+        throw new Error(result.message || result.error || 'Unknown error');
       }
-
-      const result = await pushRes.json();
-      const fileUrl = result.content?.html_url || '#';
-
-      showStatus('success', 
-        `✅ ZAPISANO POMYŚLNIE!\n\nWorkflow: ${workflowName}\nPlik: ${fileName}\nAkcja: ${sha ? 'ZAKTUALIZOWANY' : 'NOWY PLIK'}\nData: ${today}\n\nLink: ${fileUrl}`
-      );
 
     } catch (err) {
       showStatus('error', `❌ Błąd: ${err.message}`);
@@ -539,8 +570,13 @@
 
   function showStatus(type, message) {
     const box = document.getElementById('statusBox');
-    box.className = `status ${type}`;
-    box.textContent = message;
+    if (type === 'loading') {
+      box.className = 'status loading';
+      box.innerHTML = `<div class="spinner"></div><span>${message}</span>`;
+    } else {
+      box.className = `status ${type}`;
+      box.textContent = message;
+    }
   }
 </script>
 </body>
